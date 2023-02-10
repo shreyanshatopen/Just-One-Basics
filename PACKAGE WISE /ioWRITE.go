@@ -17,4 +17,8 @@ func main() {
 	n, err := writer.Write([]byte("Hello"))
 	fmt.Println(n, err) // it will print size of []byte and err(if not then nil)
 
+	// to add into files
+	changedSize, err2 := io.WriteString(writer, "!")
+
+	fmt.Println(changedSize, err2)
 }
