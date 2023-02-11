@@ -1,0 +1,4 @@
+2023/02/10 17:21:57 Printed Using Log package
+2023/02/10 fmtVSlog.go:18: Printed Using Log package
+// created using log.SetOutput
+
