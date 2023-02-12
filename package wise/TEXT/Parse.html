@@ -1,25 +1,4 @@
-package main
-
-import (
-	"fmt"
-	"io"
-	"log"
-	"os"
-)
-
-func handleError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-func main() {
-	fileRef, err := os.Create("Parse.html")
-
-	handleError(err)
-	defer fileRef.Close()
-	writer := io.Writer(fileRef)
-
-	towrite, err := writer.Write([]byte(`
+<!-- created using os.create code in TEXT/TEMPLATE parsefile.go -->
 	<!DOCTYPE html>
 	<html lang="en">
 	
@@ -29,7 +8,7 @@ func main() {
 		<title>Document</title>
 	
 		<style>
-			{
+			body {
 				font-family: 'Roboto', sans-serif;
 			}
 	
@@ -110,7 +89,7 @@ func main() {
 							<td style="text-align: right;">1131.45</td>
 							<td style="text-align: right;">0.00</td>
 						</tr>
-										<tr>
+						<tr>
 							<td style="text-align: left;">Anvesh</td>
 							<td style="text-align: left;">Both</td>
 							<td style="text-align: left;">anveshtt@yopmail.com</td>
@@ -160,22 +139,4 @@ func main() {
 		</div>
 	</body>
 														 
-	`))
-	handleError(err)
-	fmt.Printf("size(in bytes) : %v, error(if any): %v", towrite, err)
-
-	// Now printing whole html string in a separate log file
-	file2getString, _ := os.Create("htmlString.log")
-	// now we will save printed log outputs in "logFile.log"
-	log.SetOutput(file2getString)
-
-	log.SetFlags(log.Ldate | log.Lshortfile)
-	reader := io.Reader(fileRef)
-	buffer := make([]byte, 5000) // buffer is for reading bytes
-
-	n, err2 := reader.Read(buffer)
-	log.Println(n, err2)
-	log.Println(string(buffer)) // this statement we are not able to print in log file
-	// this needs to be parse
-
-}
+	

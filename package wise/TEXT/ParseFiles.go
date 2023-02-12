@@ -1,4 +1,25 @@
-<!-- created using os.create code in TEXT/TEMPLATE parsefile.go -->
+package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"os"
+)
+
+func handleError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+func main() {
+	fileRef, err := os.Create("Parse.html")
+
+	handleError(err)
+	defer fileRef.Close()
+	writer := io.Writer(fileRef)
+
+	towrite, err := writer.Write([]byte(`
 	<!DOCTYPE html>
 	<html lang="en">
 	
@@ -139,4 +160,22 @@
 		</div>
 	</body>
 														 
-	
+	`))
+	handleError(err)
+	fmt.Printf("size(in bytes) : %v, error(if any): %v", towrite, err)
+
+	// Now printing whole html string in a separate log file
+	file2getString, _ := os.Create("errHtmlString.log")
+	// now we will save printed log outputs in "logFile.log"
+	log.SetOutput(file2getString)
+
+	log.SetFlags(log.Ldate | log.Lshortfile)
+	reader := io.Reader(fileRef)
+	buffer := make([]byte, 5000) // buffer is for reading bytes
+
+	n, err2 := reader.Read(buffer)
+	log.Println(n, err2)
+	log.Println(string(buffer)) // this statement we are not able to print in log file
+	// this needs to be parse
+
+}
